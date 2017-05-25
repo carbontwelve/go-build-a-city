@@ -32,6 +32,11 @@ func main() {
 		panic(r)
 	}
 
+	r = game.TextureManager.LoadTexture("water", "water.png")
+	if r != nil {
+		panic(r)
+	}
+
 	game.PushState(NewLoadingState(&game))
 	pixelgl.Run(game.GameLoop)
 }
