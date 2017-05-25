@@ -87,26 +87,4 @@ func (g *Game) GameLoop() {
 
 	// Do some shutdown stuff
 	fmt.Println("Shutdown")
-
-	//for {
-	//	//dt := time.Since(clock).Seconds()
-	//	//clock = time.Now()
-	//
-	//	if (g.PeekState() == nil) {
-	//		continue
-	//	}
-	//
-	//	g.PeekState().handleInput()
-	//	g.PeekState().update(1.1)
-	//	g.PeekState().draw(1.1)
-	//
-	//	// FPS Counter
-	//	frames++
-	//	select {
-	//	case <-second:
-	//		fmt.Printf("FPS: %d\n", frames)
-	//		frames = 0
-	//	default:
-	//	}
-	//}
 }
