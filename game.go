@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/golang-collections/collections/stack"
+	//"github.com/golang-collections/collections/stack"
 	"time"
 	"fmt"
 	"github.com/faiface/pixel/pixelgl"
@@ -9,7 +9,7 @@ import (
 )
 
 type Game struct {
-	states *stack.Stack
+	states *stack
 }
 
 func (g *Game) PushState(state GameState) {
@@ -18,27 +18,29 @@ func (g *Game) PushState(state GameState) {
 
 func (g *Game) PopState() {
 	g.states.Pop()
+	fmt.Printf("%+v\n", g.states)
 }
 
 func (g *Game) ChangeState(state GameState) {
-	if (g.states.Len() > 0) {
+	if g.states.Len() > 0 {
 		g.states.Pop()
 	}
 	g.PushState(state)
 }
 
 func (g *Game) PeekState() GameState {
-	if (g.states.Len() == 0) {
+	if g.states.Len() == 0 {
 		return nil
 	}
-	return g.states.Peek().(GameState)
+	return g.states.Peek()
 }
 
 func (g *Game) GameLoop() {
 
 	cfg := pixelgl.WindowConfig{
-		Title:  "Pixel Rocks!",
+		Title:  "Go Build a City",
 		Bounds: pixel.R(0, 0, 1024, 768),
+		VSync:  true,
 	}
 
 	win, err := pixelgl.NewWindow(cfg)
@@ -46,7 +48,7 @@ func (g *Game) GameLoop() {
 		panic(err)
 	}
 
-	//clock := time.Now()
+	clock := time.Now()
 
 	var (
 		frames = 0
@@ -54,7 +56,19 @@ func (g *Game) GameLoop() {
 	)
 
 	for !win.Closed() {
+		dt := time.Since(clock).Seconds()
+		clock = time.Now()
+
+		if g.PeekState() == nil {
+			break
+		}
+
+		g.PeekState().update(dt, win)
+		g.PeekState().draw(dt, win)
+
 		win.Update()
+
+		g.PeekState().handleInput(win)
 
 		// FPS Counter
 		frames++
@@ -65,6 +79,9 @@ func (g *Game) GameLoop() {
 		default:
 		}
 	}
+
+	// Do some shutdown stuff
+	fmt.Println("Shutdown")
 
 	//for {
 	//	//dt := time.Since(clock).Seconds()

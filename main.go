@@ -1,39 +1,44 @@
 package main
 
 import (
-	"github.com/golang-collections/collections/stack"
-	"github.com/faiface/pixel"
+	//"github.com/golang-collections/collections/stack"
 	"github.com/faiface/pixel/pixelgl"
+	"fmt"
 )
 
+
 type GameState interface {
-	draw(dt float64)
-	update(dt float64)
-	handleInput()
+	draw(dt float64, win *pixelgl.Window)
+	update(dt float64, win *pixelgl.Window)
+	handleInput(win *pixelgl.Window)
+	setGame(g *Game)
 }
 
-type LoadingState struct{}
-
-func (lS LoadingState) draw(dt float64) {
-	// ...
+type BaseState struct {
+	g *Game
 }
 
-func (lS LoadingState) update(dt float64) {
-	// ...
-}
-
-func (lS LoadingState) handleInput() {
-	// ...
+func (s *BaseState) setGame(g *Game) {
+	s.g = g
 }
 
 func main() {
 	game := Game{
-		states: stack.New(),
+		states: NewStack(),
 	}
 
-	game.PushState(new(LoadingState))
-	game.PushState(new(LoadingState))
-	game.PushState(new(LoadingState))
+	redState := RedState{}
+	redState.setGame(&game)
+	game.PushState(&redState)
+
+	blueState := BlueState{}
+	blueState.setGame(&game)
+	game.PushState(&blueState)
+
+	//game.PushState(new(BlueState))
+	// game.PushState(new(LoadingState))
+
+	fmt.Printf("%+v\n", game.states)
 
 	pixelgl.Run(game.GameLoop)
 }
