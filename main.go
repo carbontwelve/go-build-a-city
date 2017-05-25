@@ -25,18 +25,10 @@ func (s *BaseState) setGame(g *Game) {
 func main() {
 	game := Game{
 		states: NewStack(),
+		userQuits: false,
 	}
 
-	redState := RedState{}
-	redState.setGame(&game)
-	game.PushState(&redState)
-
-	blueState := BlueState{}
-	blueState.setGame(&game)
-	game.PushState(&blueState)
-
-	//game.PushState(new(BlueState))
-	// game.PushState(new(LoadingState))
+	game.PushState(NewRedState(&game))
 
 	fmt.Printf("%+v\n", game.states)
 

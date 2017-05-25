@@ -18,7 +18,13 @@ func (lS LoadingState) update(dt float64, win *pixelgl.Window) {
 }
 
 func (lS LoadingState) handleInput(win *pixelgl.Window) {
-	if win.Pressed(pixelgl.KeyLeft) {
-		lS.g.PopState()
+	if win.JustPressed(pixelgl.KeyLeft) {
+		lS.g.ChangeState(NewRedState(lS.g))
 	}
+}
+
+func NewLoadingState(g *Game) *LoadingState {
+	s := LoadingState{}
+	s.setGame(g)
+	return &s
 }

@@ -10,6 +10,7 @@ import (
 
 type Game struct {
 	states *stack
+	userQuits bool
 }
 
 func (g *Game) PushState(state GameState) {
@@ -55,12 +56,16 @@ func (g *Game) GameLoop() {
 		second = time.Tick(time.Second)
 	)
 
-	for !win.Closed() {
+	for !win.Closed() && g.userQuits == false {
 		dt := time.Since(clock).Seconds()
 		clock = time.Now()
 
 		if g.PeekState() == nil {
 			break
+		}
+
+		if win.JustPressed(pixelgl.KeyEscape) {
+			g.userQuits = true
 		}
 
 		g.PeekState().update(dt, win)

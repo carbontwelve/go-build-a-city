@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
+	"fmt"
 )
 
 type BlueState struct{
@@ -18,7 +19,17 @@ func (lS BlueState) update(dt float64, win *pixelgl.Window) {
 }
 
 func (lS BlueState) handleInput(win *pixelgl.Window) {
-	if win.Pressed(pixelgl.KeyLeft) {
-		lS.g.PopState()
+	if win.JustPressed(pixelgl.KeyRight) {
+		fmt.Printf("%+v\n", lS.g.states)
 	}
+
+	if win.JustPressed(pixelgl.KeyLeft) {
+		lS.g.ChangeState(NewLoadingState(lS.g))
+	}
+}
+
+func NewBlueState(g *Game) *BlueState {
+	blueState := BlueState{}
+	blueState.setGame(g)
+	return &blueState
 }
