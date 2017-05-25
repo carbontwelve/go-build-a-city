@@ -1,9 +1,7 @@
 package main
 
 import (
-	//"github.com/golang-collections/collections/stack"
 	"github.com/faiface/pixel/pixelgl"
-	"fmt"
 )
 
 
@@ -28,9 +26,6 @@ func main() {
 		userQuits: false,
 	}
 
-	game.PushState(NewRedState(&game))
-
-	fmt.Printf("%+v\n", game.states)
-
+	game.PushState(NewLoadingState(&game))
 	pixelgl.Run(game.GameLoop)
 }

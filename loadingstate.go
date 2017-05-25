@@ -18,8 +18,8 @@ func (lS LoadingState) update(dt float64, win *pixelgl.Window) {
 }
 
 func (lS LoadingState) handleInput(win *pixelgl.Window) {
-	if win.JustPressed(pixelgl.KeyLeft) {
-		lS.g.ChangeState(NewRedState(lS.g))
+	if win.JustPressed(pixelgl.KeyEnter) {
+		lS.g.ChangeState(NewEditorState(lS.g))
 	}
 }
 

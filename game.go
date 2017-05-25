@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel"
+	"golang.org/x/image/colornames"
 )
 
 type Game struct {
@@ -68,12 +69,11 @@ func (g *Game) GameLoop() {
 			g.userQuits = true
 		}
 
-		g.PeekState().update(dt, win)
-		g.PeekState().draw(dt, win)
-
-		win.Update()
-
 		g.PeekState().handleInput(win)
+		g.PeekState().update(dt, win)
+		win.Clear(colornames.Black)
+		g.PeekState().draw(dt, win)
+		win.Update()
 
 		// FPS Counter
 		frames++

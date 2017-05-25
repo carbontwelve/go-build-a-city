@@ -1,5 +1,7 @@
 package main
 
+// This should probably conform to FILO http://en.cppreference.com/w/cpp/container/stack
+
 import (
 	"sync"
 	"errors"
