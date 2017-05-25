@@ -27,16 +27,7 @@ func main() {
 		TextureManager: NewTextureManager(),
 	}
 
-	r := game.TextureManager.LoadTexture("trees", "trees.png")
-	if r != nil {
-		panic(r)
-	}
-
-	r = game.TextureManager.LoadTexture("water", "water.png")
-	if r != nil {
-		panic(r)
-	}
-
+	game.LoadTextures()
 	game.PushState(NewLoadingState(&game))
 	pixelgl.Run(game.GameLoop)
 }

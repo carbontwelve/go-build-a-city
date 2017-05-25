@@ -38,6 +38,22 @@ func (g *Game) PeekState() GameState {
 	return g.states.Peek()
 }
 
+func (g *Game) LoadTextures() {
+	r := g.TextureManager.LoadTexture("trees", "trees.png")
+	if r != nil {
+		panic(r)
+	}
+
+	r = g.TextureManager.LoadTexture("water", "water.png")
+	if r != nil {
+		panic(r)
+	}
+}
+
+func (g *Game) LoadTiles() {
+
+}
+
 func (g *Game) GameLoop() {
 
 	cfg := pixelgl.WindowConfig{
