@@ -11,6 +11,7 @@ import (
 
 type Game struct {
 	states *stack
+	TextureManager *TextureManager
 	userQuits bool
 }
 

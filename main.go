@@ -24,6 +24,12 @@ func main() {
 	game := Game{
 		states: NewStack(),
 		userQuits: false,
+		TextureManager: NewTextureManager(),
+	}
+
+	r := game.TextureManager.LoadTexture("trees", "trees.png")
+	if r != nil {
+		panic(r)
 	}
 
 	game.PushState(NewLoadingState(&game))
