@@ -1,4 +1,4 @@
-package main
+package gobuildacity
 
 // http://en.cppreference.com/w/cpp/container/stack
 

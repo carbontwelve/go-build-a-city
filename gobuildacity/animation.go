@@ -1,4 +1,4 @@
-package main
+package gobuildacity
 
 type Animation struct {
 	StartFrame uint
