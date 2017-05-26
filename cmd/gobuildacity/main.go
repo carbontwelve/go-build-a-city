@@ -6,13 +6,13 @@ import (
 )
 
 func main() {
-	game := Game{
-		states: NewStack(),
-		userQuits: false,
-		TextureManager: NewTextureManager(),
+	game := gobuildacity.Game{
+		States: gobuildacity.NewStack(),
+		UserQuits: false,
+		TextureManager: gobuildacity.NewTextureManager(),
 	}
 
 	game.LoadTextures()
-	game.PushState(NewLoadingState(&game))
+	game.PushState(gobuildacity.NewLoadingState(&game))
 	pixelgl.Run(game.GameLoop)
 }

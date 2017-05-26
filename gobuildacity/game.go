@@ -10,32 +10,32 @@ import (
 )
 
 type Game struct {
-	states *stack
+	States *stack
 	TextureManager *TextureManager
-	userQuits bool
+	UserQuits bool
 }
 
 func (g *Game) PushState(state GameState) {
-	g.states.Push(state)
+	g.States.Push(state)
 }
 
 func (g *Game) PopState() {
-	g.states.Pop()
-	fmt.Printf("%+v\n", g.states)
+	g.States.Pop()
+	fmt.Printf("%+v\n", g.States)
 }
 
 func (g *Game) ChangeState(state GameState) {
-	if g.states.Len() > 0 {
-		g.states.Pop()
+	if g.States.Len() > 0 {
+		g.States.Pop()
 	}
 	g.PushState(state)
 }
 
 func (g *Game) PeekState() GameState {
-	if g.states.Len() == 0 {
+	if g.States.Len() == 0 {
 		return nil
 	}
-	return g.states.Peek().(GameState)
+	return g.States.Peek().(GameState)
 }
 
 func (g *Game) LoadTextures() {
@@ -74,7 +74,7 @@ func (g *Game) GameLoop() {
 		second = time.Tick(time.Second)
 	)
 
-	for !win.Closed() && g.userQuits == false {
+	for !win.Closed() && g.UserQuits == false {
 		dt := time.Since(clock).Seconds()
 		clock = time.Now()
 
@@ -83,7 +83,7 @@ func (g *Game) GameLoop() {
 		}
 
 		if win.JustPressed(pixelgl.KeyEscape) {
-			g.userQuits = true
+			g.UserQuits = true
 		}
 
 		g.PeekState().handleInput(win)
