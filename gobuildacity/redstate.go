@@ -20,7 +20,7 @@ func (lS RedState) update(dt float64, win *pixelgl.Window) {
 
 func (lS RedState) handleInput(win *pixelgl.Window) {
 	if win.JustPressed(pixelgl.KeyRight) {
-		fmt.Printf("%+v\n", lS.g.states)
+		fmt.Printf("%+v\n", lS.g.States)
 	}
 
 	if win.JustPressed(pixelgl.KeyLeft) {
