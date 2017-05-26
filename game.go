@@ -35,7 +35,7 @@ func (g *Game) PeekState() GameState {
 	if g.states.Len() == 0 {
 		return nil
 	}
-	return g.states.Peek()
+	return g.states.Peek().(GameState)
 }
 
 func (g *Game) LoadTextures() {
