@@ -1,4 +1,4 @@
-package gobuildacity
+package main
 
 import (
 	"github.com/faiface/pixel"
@@ -61,7 +61,7 @@ func (t *Tile) Draw(dt float64, win *pixelgl.Window) {
 	t.animHandler.Update(dt)
 
 	// Update the sprite
-	//t.sprite.Set(t.sprite.Picture(), t.animHandler.bounds)
+	t.sprite.Set(t.sprite.Picture(), t.animHandler.bounds)
 
 	// Draw the tile
 	t.sprite.Draw(win, pixel.IM.Scaled(pixel.ZV, 16).Moved(win.Bounds().Center()))

@@ -1,4 +1,4 @@
-package gobuildacity
+package main
 
 import (
 	//"github.com/faiface/pixel"
@@ -8,7 +8,6 @@ import (
 
 type LoadingState struct{
 	TextureManager *TextureManager
-	AnimationHandler *AnimationHandler
 
 	BaseState
 
@@ -17,12 +16,7 @@ type LoadingState struct{
 
 func (lS LoadingState) draw(dt float64, win *pixelgl.Window) {
 	win.Clear(colornames.Whitesmoke)
-
 	lS.tile.Draw(dt, win)
-
-	//tree := pixel.NewSprite(lS.g.TextureManager.GetRef("water"), pixel.R(0, 0, 16, 8))
-	//tree.Draw(win, pixel.IM.Scaled(pixel.ZV, 16).Moved(win.Bounds().Center()))
-
 }
 
 func (lS LoadingState) update(dt float64, win *pixelgl.Window) {
@@ -32,6 +26,13 @@ func (lS LoadingState) update(dt float64, win *pixelgl.Window) {
 func (lS LoadingState) handleInput(win *pixelgl.Window) {
 	if win.JustPressed(pixelgl.KeyEnter) {
 		lS.g.ChangeState(NewEditorState(lS.g))
+	}
+
+	if win.JustPressed(pixelgl.KeySpace) {
+		lS.tile.tileVariant++
+		if lS.tile.tileVariant > len(lS.tile.animHandler.animations) - 1 {
+			lS.tile.tileVariant = 0
+		}
 	}
 }
 
@@ -43,7 +44,6 @@ func NewLoadingState(g *Game) *LoadingState {
 
 	s := LoadingState{
 		NewTextureManager(),
-		NewAnimationHandler(),
 		BaseState{g},
 		NewTile(8, 1, g.TextureManager.GetRef("water"), tileAnim, WATER, 0,0,1)}
 	return &s

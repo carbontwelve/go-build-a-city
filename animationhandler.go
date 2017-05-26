@@ -1,6 +1,9 @@
-package gobuildacity
+package main
 
-import "github.com/faiface/pixel"
+import (
+	"github.com/faiface/pixel"
+	"fmt"
+)
 
 type AnimationHandler struct {
 	// Array of animations
@@ -34,19 +37,17 @@ func (aH *AnimationHandler) ChangeAnimation(animID int) {
 	// Update the animation bounds
 
 	//sf::IntRect rect = this->frameSize;
-	rect := aH.frameSize
+	//rect := aH.frameSize
 
 	//rect.top = rect.height * animID;
-	rect.Min.Y = rect.H() * float64(animID)
-	rect.Max.Y = rect.H() * float64(animID)
+	//rect.Min.Y = rect.H() * float64(animID)
+	//rect.Max.Y = rect.H() * float64(animID)
 
 	//this->bounds = rect;
-	aH.bounds = rect
-
-
-
-
+	aH.bounds = pixel.R(aH.frameSize.Min.X, aH.frameSize.H() * float64(animID), aH.frameSize.Max.X, aH.frameSize.H() * float64(animID) + aH.frameSize.H())
 	aH.t = 0.0
+
+	fmt.Println("animID: ", animID, "framesize Max X:", aH.frameSize.Max.X)
 }
 
 // Update the current frame of animation. dt is the time since the update
@@ -69,9 +70,16 @@ func (aH *AnimationHandler) Update(dt float64) {
 		frame %= int(aH.animations[aH.currentAnim].GetLength())
 
 		// Set the sprite to the new frame
-		// rect := aH.frameSize
+		rect := aH.frameSize
 
-		// @todo
+		aH.bounds.Min.Y = rect.H() * float64(aH.currentAnim) + rect.H()
+		aH.bounds.Min.X = rect.W() * float64(frame)
+		aH.bounds.Max.X = rect.W() * float64(frame) + rect.W()
+		aH.bounds.Max.Y = rect.H() * float64(aH.currentAnim)
+
+		// fmt.Println("FrameSize W: ", aH.frameSize.W(), "H: ", aH.frameSize.H(), "Min (", aH.frameSize.Min.X, ",", aH.frameSize.Min.Y, ") Max (", aH.frameSize.Max.X, ",", aH.frameSize.Max.Y, ")" )
+		//fmt.Println("Frame: ", frame, "W: ", aH.bounds.W(), "H: ", aH.bounds.H(), "Min (", aH.bounds.Min.X, ",", aH.bounds.Min.Y, ") Max (", aH.bounds.Max.X, ",", aH.bounds.Max.Y, ")" )
+
 	}
 
 	aH.t += dt

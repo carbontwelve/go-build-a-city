@@ -1,4 +1,4 @@
-package gobuildacity
+package main
 
 import (
 	//"github.com/golang-collections/collections/stack"

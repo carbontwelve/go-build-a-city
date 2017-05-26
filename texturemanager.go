@@ -1,4 +1,4 @@
-package gobuildacity
+package main
 
 import(
 	"image"
