@@ -55,11 +55,13 @@ func (t *Tile) Draw(dt float64, win *pixelgl.Window) {
 	// Change the sprite to reflect the tile variant
 	t.animHandler.ChangeAnimation(t.tileVariant)
 
+	//fmt.Println(t.animHandler.currentAnim)
+
 	// Update the animation
 	t.animHandler.Update(dt)
 
 	// Update the sprite
-	t.sprite.Set(t.sprite.Picture(), t.animHandler.bounds)
+	//t.sprite.Set(t.sprite.Picture(), t.animHandler.bounds)
 
 	// Draw the tile
 	t.sprite.Draw(win, pixel.IM.Scaled(pixel.ZV, 16).Moved(win.Bounds().Center()))
