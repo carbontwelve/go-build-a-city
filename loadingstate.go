@@ -49,8 +49,7 @@ func (lS LoadingState) update(dt float64, win *pixelgl.Window) {
 	lS.debugText.Dot = lS.debugText.Orig
 	lS.debugText.Color = colornames.Darkslategray
 
-
-	lS.debugText.WriteString(fmt.Sprintf("Tile Variant: %d", lS.tile.tileVariant))
+	lS.debugText.WriteString(fmt.Sprintf("Tile Variant: %d\nBounds W/H: %f/%f\nMin: (%f,%f) Max: (%f,%f)", lS.tile.tileVariant, lS.tile.animHandler.bounds.W(), lS.tile.animHandler.bounds.H(), lS.tile.animHandler.bounds.Min.X, lS.tile.animHandler.bounds.Min.Y, lS.tile.animHandler.bounds.Max.X, lS.tile.animHandler.bounds.Max.Y))
 
 }
 
