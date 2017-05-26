@@ -1,6 +1,6 @@
 package main
 
-// This should probably conform to FILO http://en.cppreference.com/w/cpp/container/stack
+// http://en.cppreference.com/w/cpp/container/stack
 
 import (
 	"sync"
@@ -9,14 +9,14 @@ import (
 
 type stack struct {
 	lock sync.Mutex // you don't have to do this if you don't want thread safety
-	s []GameState
+	s []interface{}
 }
 
 func NewStack() *stack {
-	return &stack {sync.Mutex{}, make([]GameState,0), }
+	return &stack {sync.Mutex{}, make([]interface{},0), }
 }
 
-func (s stack) Peek() GameState {
+func (s stack) Peek() interface{} {
 	if s.Len() == 0 {
 		return nil
 	}
@@ -28,17 +28,20 @@ func (s stack) Len() int {
 	return len(s.s)
 }
 
-func (s *stack) Push(v GameState) {
+func (s stack) Empty() bool {
+	return s.Len() == 0
+}
+
+func (s *stack) Push(v interface{}) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
 	s.s = append(s.s, v)
 }
 
-func (s *stack) Pop() (GameState, error) {
+func (s *stack) Pop() (interface{}, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-
 
 	l := len(s.s)
 	if l == 0 {
