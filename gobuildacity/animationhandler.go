@@ -85,12 +85,7 @@ func (aH *AnimationHandler) Update(dt float64) {
 
 }
 
-func NewAnimationHandler() *AnimationHandler {
-	aH := AnimationHandler{t: 0.0, currentAnim: -1}
-	return &aH
-}
-
-func NewAnimationHandlerWithFrameSize(rect pixel.Rect) *AnimationHandler {
+func NewAnimationHandler(rect pixel.Rect) *AnimationHandler {
 	aH := AnimationHandler{frameSize: rect, t: 0.0, currentAnim: -1}
 	return &aH
 }

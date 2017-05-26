@@ -92,9 +92,7 @@ func NewTile (
 	t.production = 0
 	t.storedGoods = 0
 
-	t.animHandler = NewAnimationHandler()
-	t.animHandler.frameSize = pixel.R(0,0, float64(tileSize*2), float64(tileSize*height))
-
+	t.animHandler = NewAnimationHandler(pixel.R(0,0, float64(tileSize*2), float64(tileSize*height)))
 	t.sprite = pixel.NewSprite(texture, t.animHandler.frameSize)
 
 	// @todo not implemented, not sure what this does atm
