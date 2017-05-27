@@ -13,8 +13,8 @@ type TextureManager struct {
 	textures map[string]pixel.Picture
 }
 
-func (tM *TextureManager) LoadTexture(name string, path string) (error) {
-	file, err := os.Open(path)
+func (tM *TextureManager) LoadTexture(name string, relativePath string) (error) {
+	file, err := os.Open(relativePath)
 	if err != nil {
 		return err
 	}

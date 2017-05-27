@@ -78,7 +78,7 @@ func (aH *AnimationHandler) Update(dt float64) {
 		aH.bounds.Max.Y = rect.H() * float64(aH.currentAnim)
 
 		// fmt.Println("FrameSize W: ", aH.frameSize.W(), "H: ", aH.frameSize.H(), "Min (", aH.frameSize.Min.X, ",", aH.frameSize.Min.Y, ") Max (", aH.frameSize.Max.X, ",", aH.frameSize.Max.Y, ")" )
-		//fmt.Println("Frame: ", frame, "W: ", aH.bounds.W(), "H: ", aH.bounds.H(), "Min (", aH.bounds.Min.X, ",", aH.bounds.Min.Y, ") Max (", aH.bounds.Max.X, ",", aH.bounds.Max.Y, ")" )
+		// fmt.Println("Frame: ", frame, "W: ", aH.bounds.W(), "H: ", aH.bounds.H(), "Min (", aH.bounds.Min.X, ",", aH.bounds.Min.Y, ") Max (", aH.bounds.Max.X, ",", aH.bounds.Max.Y, ")" )
 
 	}
 
