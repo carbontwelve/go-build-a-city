@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/faiface/pixel"
-	"fmt"
 )
 
 type AnimationHandler struct {
@@ -47,7 +46,7 @@ func (aH *AnimationHandler) ChangeAnimation(animID int) {
 	aH.bounds = pixel.R(aH.frameSize.Min.X, aH.frameSize.H() * float64(animID), aH.frameSize.Max.X, aH.frameSize.H() * float64(animID) + aH.frameSize.H())
 	aH.t = 0.0
 
-	fmt.Println("animID: ", animID, "framesize Max X:", aH.frameSize.Max.X)
+	//fmt.Println("animID: ", animID, "framesize Max X:", aH.frameSize.Max.X)
 }
 
 // Update the current frame of animation. dt is the time since the update

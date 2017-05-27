@@ -8,7 +8,7 @@ import (
 type TileType int
 
 const (
-	VOID TileType = 1 + iota
+	VOID        TileType = 1 + iota
 	GRASS
 	FOREST
 	WATER
@@ -17,6 +17,26 @@ const (
 	INDUSTRIAL
 	ROAD
 )
+
+func IntToTileType(i int) TileType {
+	switch i {
+	case 1:
+		return VOID
+	case 2:
+		return GRASS
+	case 3:
+		return FOREST
+	case 4:
+		return WATER
+	case 5:
+		return RESIDENTIAL
+	case 6:
+		return COMMERCIAL
+	case 7:
+		return INDUSTRIAL
+	}
+	return VOID
+}
 
 func TileTypeToStr(t TileType) string {
 	switch t {
@@ -42,6 +62,8 @@ type Tile struct {
 	animHandler *AnimationHandler
 
 	sprite *pixel.Sprite
+
+	position pixel.Vec
 
 	// Tile Type
 	tileType TileType
@@ -82,11 +104,11 @@ func (t *Tile) Draw(dt float64, win *pixelgl.Window) {
 	t.sprite.Set(t.sprite.Picture(), t.animHandler.bounds)
 
 	// Draw the tile
-	t.sprite.Draw(win, pixel.IM.Scaled(pixel.ZV, 16).Moved(win.Bounds().Center()))
+	t.sprite.Draw(win, pixel.IM.Moved(t.position))
 }
 
 func (t *Tile) Update() {
-	if (t.tileType == RESIDENTIAL || t.tileType == COMMERCIAL || t.tileType == INDUSTRIAL) && uint(t.population) == t.maxPopPerLevel * uint(t.tileVariant+1) && uint(t.tileVariant) < t.maxLevels {
+	if (t.tileType == RESIDENTIAL || t.tileType == COMMERCIAL || t.tileType == INDUSTRIAL) && uint(t.population) == t.maxPopPerLevel*uint(t.tileVariant+1) && uint(t.tileVariant) < t.maxLevels {
 		// if(rand() % int(1e4) < 1e2 / (this->tileVariant+1)) ++this->tileVariant;
 		// Essentially the chance is 10% for tileVariant = 0, 5% for tileVariant = 1, 3.33% for tileVariant = 2, and so on.
 		// @todo implement the above in golang
@@ -97,7 +119,7 @@ func (t Tile) GetCost() uint {
 	return t.cost
 }
 
-func NewTile (
+func NewTile(
 	tileSize uint,
 	height uint,
 	texture pixel.Picture,
@@ -122,7 +144,7 @@ func NewTile (
 	t.production = 0
 	t.storedGoods = 0
 
-	t.animHandler = NewAnimationHandler(pixel.R(0,0, float64(tileSize*2), float64(tileSize*height)))
+	t.animHandler = NewAnimationHandler(pixel.R(0, 0, float64(tileSize*2), float64(tileSize*height)))
 	t.sprite = pixel.NewSprite(texture, t.animHandler.frameSize)
 
 	// @todo not implemented
@@ -130,7 +152,7 @@ func NewTile (
 	// so that the correct thing is shown
 	//this->sprite.setOrigin(sf::Vector2f(0.0f, tileSize*(height-1)));
 
-	for _, animation := range(animations) {
+	for _, animation := range (animations) {
 		t.animHandler.AddAnimation(animation)
 	}
 

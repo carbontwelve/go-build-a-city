@@ -33,14 +33,16 @@ type LoadingState struct{
 	BaseState
 
 	tile *Tile
+
+	m *Map
 }
 
 func (lS LoadingState) draw(dt float64, win *pixelgl.Window) {
 	win.Clear(colornames.Whitesmoke)
-	lS.tile.Draw(dt, win)
+	//lS.tile.Draw(dt, win)
+	//lS.debugText.Draw(win, pixel.IM.Moved(pixel.V(20, win.Bounds().H() - lS.debugText.LineHeight - 20)))
 
-	lS.debugText.Draw(win, pixel.IM.Moved(pixel.V(20, win.Bounds().H() - lS.debugText.LineHeight - 20)))
-
+	lS.m.Draw(dt, win)
 }
 
 func (lS LoadingState) update(dt float64, win *pixelgl.Window) {
@@ -80,6 +82,9 @@ func NewLoadingState(g *Game) *LoadingState {
 		NewTextureManager(),
 		dTxt,
 		BaseState{g},
-		NewTile(8, 1, g.TextureManager.GetRef("water"), tileAnim, WATER, 0,0,1)}
+		NewTile(8, 1, g.TextureManager.GetRef("water"), tileAnim, WATER, 0,0,1),
+		NewMap("city_map.dat", 64,64, g.TileAtlas), // map = Map("city_map.dat", 64, 64, game->tileAtlas);
+		}
+
 	return &s
 }
