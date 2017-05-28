@@ -64,6 +64,9 @@ func (m *Map) Save(fileName string) {
 }
 
 func (m Map) Draw(dt float64, win *pixelgl.Window) {
+
+
+
 	for y := uint(0); y < m.height; y++ {
 		for x := uint(0); x < m.width; x++ {
 			//pos := pixel.V(

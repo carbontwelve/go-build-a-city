@@ -7,13 +7,14 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel"
 	"golang.org/x/image/colornames"
+	"math"
 )
 
 type Game struct {
-	States *stack
+	States         *stack
 	TextureManager *TextureManager
-	UserQuits bool
-	TileAtlas map[string]*Tile
+	UserQuits      bool
+	TileAtlas      map[string]*Tile
 }
 
 func (g *Game) PushState(state GameState) {
@@ -87,14 +88,14 @@ func (g *Game) LoadTextures() {
 func (g *Game) LoadTiles() {
 	staticAnim := Animation{0, 0, 1.0}
 
-	g.TileAtlas["grass"] = NewTile(tileSize, 1, g.TextureManager.GetRef("grass"), []Animation{staticAnim}, GRASS, 50, 0 ,1)
-	g.TileAtlas["forest"] = NewTile(tileSize, 1, g.TextureManager.GetRef("forest"), []Animation{staticAnim}, FOREST, 100, 0 ,1)
+	g.TileAtlas["grass"] = NewTile(tileSize, 1, g.TextureManager.GetRef("grass"), []Animation{staticAnim}, GRASS, 50, 0, 1)
+	g.TileAtlas["forest"] = NewTile(tileSize, 1, g.TextureManager.GetRef("forest"), []Animation{staticAnim}, FOREST, 100, 0, 1)
 
 	g.TileAtlas["water"] = NewTile(tileSize, 1, g.TextureManager.GetRef("water"), []Animation{
-		*NewAnimation(0,3,0.5),
-		*NewAnimation(0,3,0.5),
-		*NewAnimation(0,3,0.5),
-	}, WATER, 100, 0 ,1)
+		*NewAnimation(0, 3, 0.5),
+		*NewAnimation(0, 3, 0.5),
+		*NewAnimation(0, 3, 0.5),
+	}, WATER, 100, 0, 1)
 
 	g.TileAtlas["residential"] = NewTile(tileSize, 2, g.TextureManager.GetRef("residential"), []Animation{
 		staticAnim, staticAnim, staticAnim,
@@ -133,9 +134,15 @@ func (g *Game) GameLoop() {
 	clock := time.Now()
 
 	var (
-		frames = 0
-		second = time.Tick(time.Second)
+		frames       = 0
+		second       = time.Tick(time.Second)
+		camPos       = pixel.ZV
+		//camSpeed     = 500.0
+		camZoom      = 1.0
+		camZoomSpeed = 1.2
 	)
+
+	canvas := pixelgl.NewCanvas(pixel.R(-160/2, -120/2, 160/2, 120/2))
 
 	for !win.Closed() && g.UserQuits == false {
 		dt := time.Since(clock).Seconds()
@@ -149,10 +156,25 @@ func (g *Game) GameLoop() {
 			g.UserQuits = true
 		}
 
+		cam := pixel.IM.Scaled(camPos, camZoom).Moved(win.Bounds().Center().Sub(camPos))
+		win.SetMatrix(cam)
+		camZoom *= math.Pow(camZoomSpeed, win.MouseScroll().Y)
+
+
 		g.PeekState().handleInput(win)
 		g.PeekState().update(dt, win)
-		win.Clear(colornames.Black)
+		canvas.Clear(colornames.Black)
 		g.PeekState().draw(dt, win)
+
+		// stretch the canvas to the window
+		//win.Clear(colornames.White)
+		//win.SetMatrix(pixel.IM.Scaled(pixel.ZV,
+		//	math.Min(
+		//		win.Bounds().W()/canvas.Bounds().W(),
+		//		win.Bounds().H()/canvas.Bounds().H(),
+		//	),
+		//).Moved(win.Bounds().Center()))
+		//canvas.Draw(win, pixel.IM.Moved(canvas.Bounds().Center()))
 		win.Update()
 
 		// FPS Counter
