@@ -152,7 +152,7 @@ func NewTile(
 	// so that the correct thing is shown
 	//this->sprite.setOrigin(sf::Vector2f(0.0f, tileSize*(height-1)));
 
-	for _, animation := range (animations) {
+	for _, animation := range animations {
 		t.animHandler.AddAnimation(animation)
 	}
 

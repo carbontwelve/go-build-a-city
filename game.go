@@ -1,12 +1,10 @@
 package main
 
 import (
-	//"github.com/golang-collections/collections/stack"
 	"time"
 	"fmt"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel"
-	"golang.org/x/image/colornames"
 	"math"
 )
 
@@ -43,11 +41,6 @@ func (g *Game) PeekState() GameState {
 func (g *Game) LoadTextures() {
 
 	var r error
-
-	r = g.TextureManager.LoadTexture("trees", "assets/trees.png")
-	if r != nil {
-		panic(r)
-	}
 
 	r = g.TextureManager.LoadTexture("grass", "assets/grass.png")
 	if r != nil {
@@ -142,7 +135,7 @@ func (g *Game) GameLoop() {
 		camZoomSpeed = 1.2
 	)
 
-	canvas := pixelgl.NewCanvas(pixel.R(-160/2, -120/2, 160/2, 120/2))
+	//canvas := pixelgl.NewCanvas(pixel.R(-160/2, -120/2, 160/2, 120/2))
 
 	for !win.Closed() && g.UserQuits == false {
 		dt := time.Since(clock).Seconds()
@@ -160,11 +153,9 @@ func (g *Game) GameLoop() {
 		win.SetMatrix(cam)
 		camZoom *= math.Pow(camZoomSpeed, win.MouseScroll().Y)
 
-
 		g.PeekState().handleInput(win)
 		g.PeekState().update(dt, win)
-		canvas.Clear(colornames.Black)
-		g.PeekState().draw(dt, win)
+		g.PeekState().draw(dt, win, cam)
 
 		// stretch the canvas to the window
 		//win.Clear(colornames.White)

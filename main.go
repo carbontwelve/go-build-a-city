@@ -16,6 +16,7 @@ func main() {
 
 	game.LoadTextures()
 	game.LoadTiles()
-	game.PushState(NewLoadingState(&game))
+	//game.PushState(NewLoadingState(&game))
+	game.PushState(NewEditorState(&game))
 	pixelgl.Run(game.GameLoop)
 }
